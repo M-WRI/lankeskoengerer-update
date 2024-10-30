@@ -1,0 +1,100 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: "de"
+
+# when using the default proxy server port
+local_backend: true
+
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "_posts/blog"
+    create: true
+    slug: "{{slug}}"
+    sort: "date:desc"
+    sortable_fields: ["commit_date", "title", "commit_author"]
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
+      - { label: "Title", name: "title", widget: "string" }
+      - name: "galleria"
+        label: "Gallery"
+        widget: "list"
+        optional: true
+        fields:
+          - { label: "Gallery Image", name: "imgSrc", widget: "image" }
+          - {
+              label: "Description",
+              name: "imgDesc",
+              widget: "string",
+              required: false,
+            }
+      - { label: "Mobile Text", name: "mobileText", widget: "text" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "_pages/about-us.md"
+        label: "Über Uns"
+        name: "index"
+        fields:
+          - {
+              label: "Template Key",
+              name: "templateKey",
+              widget: "hidden",
+              default: "index-page",
+            }
+          - { label: Title, name: title, widget: string }
+          - {
+              label: Content,
+              name: content,
+              widget: object,
+              required: false,
+              fields:
+                [
+                  {
+                    label: Content List,
+                    name: blurbs,
+                    widget: list,
+                    fields:
+                      [
+                        { label: Class, name: class, widget: string },
+                        { label: Navigation, name: title, widget: string },
+                        {
+                          label: Content,
+                          name: lists,
+                          widget: list,
+                          fields:
+                            [
+                              {
+                                label: Title,
+                                name: title,
+                                widget: string,
+                                required: false,
+                              },
+                              { label: Text, name: text, widget: text },
+                            ],
+                        },
+                      ],
+                  },
+                ],
+            }
+      - file: "_pages/address.md"
+        label: "Address Component"
+        name: "adress"
+        fields:
+          - {
+              label: "Template Key",
+              name: "templateKey",
+              widget: "hidden",
+              default: "index-page",
+            }
+          - { label: Adresse, name: address, widget: string }
+          - { label: Adresse Link, name: addressLink, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: Telefon, name: telefon, widget: string }
